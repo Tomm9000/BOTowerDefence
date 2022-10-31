@@ -6,7 +6,8 @@ using TMPro;
 
 public class TowerPlacement : MonoBehaviour
 {
-    private bool canBePlayed;
+    private bool canBePlayed = true;
+    private bool wasPlaced;
     public int handIndex;
 
     private float CardCost;
@@ -20,7 +21,7 @@ public class TowerPlacement : MonoBehaviour
     [SerializeField] GameObject Tower;
     [SerializeField] GameObject TowerModel;
     private Vector3 originalPos;
-
+    public Vector2 originalCardLoc;
 
 
     private void Start()
@@ -44,20 +45,6 @@ public class TowerPlacement : MonoBehaviour
         else gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 1);
 
     }
-    private void OnMouseUp()
-    {
-        if(statsScript._energy > CardCost)
-        {
-            GameObject pp = Instantiate(Tower);
-            pp.transform.position = transform.position;
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-            gameObject.transform.position = originalPos;
-            statsScript.availableCardSlots[handIndex] = true;
-            statsScript.DrawCard();
-            statsScript.EnergyDeplete(CardCost);
-            Invoke("moveToDiscard", 1f);
-        }
-    }
     private void OnMouseEnter()
     {
         if (statsScript._energy > CardCost)
@@ -66,14 +53,46 @@ public class TowerPlacement : MonoBehaviour
         }
         else Outline.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 1);
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("Collided");
-    }
     private void OnMouseExit()
     {
         Outline.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
     }
+    private void OnMouseUp()
+    {
+        if(statsScript._energy > CardCost)
+        {
+            if(canBePlayed == true)
+            {
+                GameObject pp = Instantiate(Tower);
+                pp.transform.position = transform.position;
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+                gameObject.transform.position = originalPos;
+                statsScript.availableCardSlots[handIndex] = true;
+                statsScript.DrawCard();
+                statsScript.EnergyDeplete(CardCost);
+                Invoke("moveToDiscard", 1f);
+            }
+            else
+            {
+                transform.position = statsScript._cardSlots[handIndex].transform.position;
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        canBePlayed = false;
+        Debug.Log(canBePlayed);
+        TowerModel.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 1);
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        canBePlayed = true;
+        Debug.Log(canBePlayed);
+        TowerModel.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
+
+    }
+
     private void moveToDiscard()
     {
         statsScript.discarded.Add(this);

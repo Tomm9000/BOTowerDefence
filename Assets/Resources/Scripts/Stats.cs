@@ -11,7 +11,7 @@ public class Stats : MonoBehaviour
     [SerializeField] GameObject textmeshpro_Energy;
 
     private float _lives = 100;
-    public float _energy = 0;
+    public float _energy = 50;
 
     TextMeshProUGUI textmeshpro_healthText;
     TextMeshProUGUI textmeshpro_energyText;
@@ -19,9 +19,8 @@ public class Stats : MonoBehaviour
     //Deck of cards
     public List<TowerPlacement> deck = new List<TowerPlacement>();
     public List<TowerPlacement> discarded = new List<TowerPlacement>();
-    [SerializeField] Transform[] _cardSlots;
+    public Transform[] _cardSlots;
     public bool[] availableCardSlots;
-
 
     public GameObject amountInDeck;
     TextMeshProUGUI amountInDeckText;
@@ -96,13 +95,17 @@ public class Stats : MonoBehaviour
                     randCard.gameObject.SetActive(true);
                     randCard.handIndex = i;
                     randCard.transform.position = _cardSlots[i].position;
-
                     availableCardSlots[i] = false;
                     deck.Remove(randCard);
                     return;
                 }
             }
         }
+    }
+
+    public void putCardBack()
+    {
+
     }
 
     public void Shuffle()
