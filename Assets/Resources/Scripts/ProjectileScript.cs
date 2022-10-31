@@ -29,7 +29,7 @@ public class ProjectileScript : MonoBehaviour
             if (doesExplosion == true)
             {
                 DamageableEnemies.Add(collision.gameObject);
-                //Debug.Log(DamageableEnemies.Count);
+                Debug.Log(DamageableEnemies.Count);
             }
         }
     }
@@ -43,6 +43,7 @@ public class ProjectileScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("Collision");
         if (doesExplosion == true)
         {
             for (int i = 0; i < DamageableEnemies.Count; i++)
@@ -57,10 +58,10 @@ public class ProjectileScript : MonoBehaviour
             for (int i = 0; i < DamageableEnemies.Count; i++)
             {
                 DamageableEnemies[i].GetComponent<Enemy>().Damage(30);
-            }   
+            }
         }
     }
-    void Update()
+        void Update()
     {
             transform.Translate(ProjDir * Speed * Time.deltaTime);
     }

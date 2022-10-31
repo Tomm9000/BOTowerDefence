@@ -68,7 +68,7 @@ public class TowerPlacement : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        TowerModel.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 1);
+        Debug.Log("Collided");
     }
     private void OnMouseExit()
     {
