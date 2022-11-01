@@ -11,7 +11,7 @@ public class Stats : MonoBehaviour
     [SerializeField] GameObject textmeshpro_Energy;
 
     private float _lives = 100;
-    public float _energy = 50;
+    public float _energy;
 
     TextMeshProUGUI textmeshpro_healthText;
     TextMeshProUGUI textmeshpro_energyText;
@@ -29,6 +29,7 @@ public class Stats : MonoBehaviour
     TextMeshProUGUI amountInDiscardText;
     private void Start()
     {
+        _energy = 50f;
         for (int i = 0; i < _cardSlots.Length; i++)
         {
             DrawCard();
